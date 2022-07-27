@@ -1,0 +1,16 @@
+version: '2'
+services:
+  gluetun:
+    image: qmcgaw/gluetun:latest
+    container_name: gluetun
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - ./ovpn.ovpn:/gluetun/ovpn.ovpn
+    environment:
+      - OPENVPN_CUSTOM_CONFIG=/gluetun/ovpn.ovpn
+  hacker-man:
+    image: veerendrav2/hacker-tools
+    network_mode: "service:gluetun"
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
